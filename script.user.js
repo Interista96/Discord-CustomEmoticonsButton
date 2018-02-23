@@ -10,7 +10,6 @@
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @require      https://raw.githubusercontent.com/yanatan16/nanoajax/master/nanoajax.min.js
 // ==/UserScript==
-var token = window.localStorage?window.localStorage.token:window.location.reload();
 (function () {
     'use strict';
     var emoji = [ //Массив с ссылками на ваши смайлы
@@ -21,7 +20,7 @@ var token = window.localStorage?window.localStorage.token:window.location.reload
         "https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Emoji_with_Eyes_Opened_large.png",
         "https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Emoji_with_Eyes_Opened_large.png"
     ];
-    var BTNIcon = "http://trjvoron.ucoz.net/WIKI/stanicb.png";
+    var BTNIcon = "http://trjvoron.ucoz.net/WIKI/stanicb.png"; //Ссылка на иконку для кнопки
 
     $(document).ready(function () {
         $('body').append("<style>" +
@@ -79,10 +78,12 @@ var token = window.localStorage?window.localStorage.token:window.location.reload
     });
 
     function waitForPageLoad() {
-        if ($('form [class^=emojiButton]').length != 0)
+        if ($('form [class^=emojiButton]').length != 0) {
             buildBTN();
-        else
+            getReactID();
+        } else {
             setTimeout(waitForPageLoad, 100);
+        }
     }
 
     function buildBTN() {
@@ -97,6 +98,15 @@ var token = window.localStorage?window.localStorage.token:window.location.reload
         $('body').append(popup + "</div>");
     }
 
+    function getReactID() {
+        for (let key in $('form div[class|=innerEnabled] > textarea')[0]) {
+            if (key.indexOf("__reactEvent") == 0) {
+                window.reactID = key.replace("__reactEventHandlers", '');
+                break;
+            }
+        }
+    }
+
     $(document).on("click", '.containerDefault-7RImuF, .guild, .channel.private', function () {
         setTimeout(buildBTN, 0);
     });
@@ -104,8 +114,8 @@ var token = window.localStorage?window.localStorage.token:window.location.reload
     $(document).on("click", '#customEmoticonsBTN', function (e) {
         if ($('#emojiList')[0].style.visibility == "hidden") {
             $('#emojiList').css({
-                "left": (e.clientX - e.offsetX - $('#emojiList').width() + 12), 
-                "top": (e.clientY - e.offsetY - $('#emojiList').height() - 28), 
+                "left": (e.clientX - e.offsetX - $('#emojiList').width() + 12),
+                "top": (e.clientY - e.offsetY - $('#emojiList').height() - 28),
                 "visibility": "visible"
             });
         }
@@ -120,14 +130,13 @@ var token = window.localStorage?window.localStorage.token:window.location.reload
     });
 
     $(document).on("click", '.emojiListItem', function () {
-        nanoajax.ajax({
-            url: 'https://discordapp.com/api/v6/channels/' + window.location.pathname.split('/').pop() + '/messages',
-            method: 'POST',
-            headers: {
-                authorization: token.replace(/"/g, ''),
-                "content-type": "application/json"
-            },
-            body: '{"content": ' + this.style.backgroundImage.replace(/^url\(|\)$/g, '') + '}'
-        }, function () {}); //Если не обозначить функцию-callback, то вылетит ошибка
+        let elem = $('form div[class|=innerEnabled] > textarea');
+        elem.val(elem.val() == '' ? elem.val() + this.style.backgroundImage.replace(/^url\("|"\)$/g, '') : elem.val() + "\n" + this.style.backgroundImage.replace(/^url\("|"\)$/g, ''));
+        elem[0].innerText = elem.val();
+        $('form')[0]["__reactInternalInstance" + reactID].return.memoizedState.textValue = elem.val();
+    });
+
+    $(document).on("keydown keypress keyup", 'form div[class|=innerEnabled] > textarea', function () {
+        fuckDiscord = $('form div[class|=innerEnabled] > textarea').val();
     });
 })();
