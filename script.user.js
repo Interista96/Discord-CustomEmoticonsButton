@@ -21,14 +21,14 @@ var token = window.localStorage?window.localStorage.token:window.location.reload
         "https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Emoji_with_Eyes_Opened_large.png",
         "https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Emoji_with_Eyes_Opened_large.png"
     ];
-
+    var BTNIcon = "http://trjvoron.ucoz.net/WIKI/stanicb.png";
 
     $(document).ready(function () {
         $('body').append("<style>" +
                          "#customEmoticonsBTN {" +
                          "width: 22px;" +
                          "height: 22px;" +
-                         "background: url(http://trjvoron.ucoz.net/WIKI/stanicb.png);" +
+                         "background: url(" + BTNIcon + ");" +
                          "background-repeat: no-repeat;" +
                          "background-size: contain;" +
                          "cursor: pointer;" +
