@@ -37,12 +37,12 @@ var token = window.localStorage?window.localStorage.token:window.location.reload
                          "top: 11px;" +
                          "}" +
                          "#emojiList {" +
-                         "width: 326px;" +
+                         "width: 326px;" + //Ширина списка смайлов
                          "position: absolute;" +
                          "background: rgba(0,0,0,0.4);" +
                          "padding: 7px;" +
                          "border-radius: 5px;" +
-                         "max-height: 416px;" +
+                         "max-height: 416px;" + //Максимальная высота списка смайлов
                          "min-height: 32px;" +
                          "line-height: 0px;" +
                          "overflow: auto;" +
@@ -60,8 +60,8 @@ var token = window.localStorage?window.localStorage.token:window.location.reload
                          "border-radius: 10px;" +
                          "}" +
                          ".emojiListItem {" +
-                         "width: 28px;" +
-                         "height: 28px;" +
+                         "width: 28px;" + //Размер смайла в списке
+                         "height: 28px;" + //Размер смайла в списке
                          "margin: 2px 0 2px 4px;" +
                          "cursor: pointer;" +
                          "display: inline-block;" +
