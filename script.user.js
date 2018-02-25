@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Emoticons button
 // @namespace    https://discordapp.com/
-// @version      1.0
+// @version      1.1.0
 // @description  Adds a custom emoticons button.
 // @author       Dmitry221060
 // @run-at       document-start
@@ -136,7 +136,4 @@
         $('form')[0]["__reactInternalInstance" + reactID].return.memoizedState.textValue = elem.val();
     });
 
-    $(document).on("keydown keypress keyup", 'form div[class|=innerEnabled] > textarea', function () {
-        fuckDiscord = $('form div[class|=innerEnabled] > textarea').val();
-    });
 })();
