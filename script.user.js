@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Emoticons button
 // @namespace    https://discordapp.com/
-// @version      1.1.0
+// @version      1.1.1
 // @description  Adds a custom emoticons button.
 // @author       Dmitry221060
 // @run-at       document-start
@@ -10,7 +10,15 @@
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @require      https://raw.githubusercontent.com/yanatan16/nanoajax/master/nanoajax.min.js
 // ==/UserScript==
-(function () {
+function init() {
+    'use strict';
+    $.get("https://raw.githubusercontent.com/Dmitry221060/Discord-CustomEmoticonsButton/master/selectors.json")
+    .then(data => run(JSON.parse(data)))
+    .fail(() => init());
+}
+init();
+
+function run(selectors) {
     'use strict';
     var emoji = [ //Массив с ссылками на ваши смайлы
         "https://cdn.shopify.com/s/files/1/1061/1924/products/Smiling_Emoji_with_Eyes_Opened_large.png",
@@ -68,7 +76,7 @@
                          "background-repeat: no-repeat;" +
                          "background-size: contain;" +
                          "}" +
-                         "form [class^=textArea]{" +
+                         "form " + selectors.textarea + " {" +
                          "padding: 10px 62px 10px 0px;" +
                          "}" +
                          "</style>"
@@ -78,7 +86,7 @@
     });
 
     function waitForPageLoad() {
-        if ($('form [class^=emojiButton]').length != 0) {
+        if ($('form ' + selectors.emojiButton).length != 0) {
             buildBTN();
             getReactID();
         } else {
@@ -87,7 +95,7 @@
     }
 
     function buildBTN() {
-        $('<div id="customEmoticonsBTN"></div>').insertBefore($('form [class^=emojiButton]'));
+        $('<div id="customEmoticonsBTN"></div>').insertBefore($('form ' + selectors.emojiButton));
     }
 
     function createPopup() {
@@ -99,7 +107,7 @@
     }
 
     function getReactID() {
-        for (let key in $('form div[class|=innerEnabled] > textarea')[0]) {
+        for (let key in $('form ' + selectors.textarea)[0]) {
             if (key.indexOf("__reactEvent") == 0) {
                 window.reactID = key.replace("__reactEventHandlers", '');
                 break;
@@ -107,11 +115,11 @@
         }
     }
 
-    $(document).on("click", '.containerDefault-7RImuF, .guild, .channel.private', function () {
+    $(document).on("click", selectors.guildAndChannelBTNs, () => {
         setTimeout(buildBTN, 0);
     });
 
-    $(document).on("click", '#customEmoticonsBTN', function (e) {
+    $(document).on("click", '#customEmoticonsBTN', e => {
         if ($('#emojiList')[0].style.visibility == "hidden") {
             $('#emojiList').css({
                 "left": (e.clientX - e.offsetX - $('#emojiList').width() + 12),
@@ -121,7 +129,7 @@
         }
     });
 
-    $(document).on("click", function(e) {
+    $(document).on("click", e => {
         if (!$(e.target).closest('#emojiList').length && e.target.id != "customEmoticonsBTN") {
             if ($('#emojiList')[0].style.visibility == "visible") {
                 $('#emojiList').css({"visibility": "hidden"});
@@ -130,10 +138,10 @@
     });
 
     $(document).on("click", '.emojiListItem', function () {
-        let elem = $('form div[class|=innerEnabled] > textarea');
+        let elem = $('form ' + selectors.textarea);
         elem.val(elem.val() == '' ? elem.val() + this.style.backgroundImage.replace(/^url\("|"\)$/g, '') : elem.val() + "\n" + this.style.backgroundImage.replace(/^url\("|"\)$/g, ''));
         elem[0].innerText = elem.val();
         $('form')[0]["__reactInternalInstance" + reactID].return.memoizedState.textValue = elem.val();
     });
 
-})();
+}
