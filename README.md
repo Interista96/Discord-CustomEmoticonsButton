@@ -14,5 +14,5 @@ The script adds a button for your own emoji
 ### Step 3: Setting up the script
 * Click on the extension icon and choose "Dashboard".
 * Open a script named "Emoticons button".
-* On the 16th line you will find an array with links to pictures. You can modify and add them at any time!
-* You can also change the button icon on line 24.
+* On the 23th line you will find an array with links to pictures. You can modify and add them at any time!
+* You can also change the button icon on line 31.
