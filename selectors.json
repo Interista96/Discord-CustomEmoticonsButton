@@ -1,5 +1,5 @@
 {
-  textarea: '[class^=textArea]',
-  emojiButton: '[class^=emojiButton]',
-  guildAndChannelBTNs: '.containerDefault-7RImuF, .guild, .channel.private'
+  "textarea": "[class^=textArea]",
+  "emojiButton": "[class^=emojiButton]",
+  "guildAndChannelBTNs": ".containerDefault-7RImuF, .guild, .channel.private"
 }
