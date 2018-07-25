@@ -77,7 +77,7 @@ function run(selectors) {
                          "background-size: contain;" +
                          "}" +
                          "form " + selectors.textarea + " {" +
-                         "padding: 10px 62px 10px 0px;" +
+                         "padding: 10px 62px 10px 10px;" +
                          "}" +
                          "</style>"
         );
