@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Emoticons button
-// @namespace    https://discordapp.com/
+// @namespace    https://gamevn.com/
 // @version      1.1.1
 // @description  Adds a custom emoticons button.
 // @author       Dmitry221060
 // @run-at       document-start
-// @match        https://discordapp.com/*
+// @match        https://gamevn.com/*
 // @grant        none
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @require      https://raw.githubusercontent.com/yanatan16/nanoajax/master/nanoajax.min.js
